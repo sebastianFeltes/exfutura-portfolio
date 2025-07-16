@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ServicesCard from "../components/ServicesCard.astro";
+import { services } from "../data/services.js";
+
+interface Props {
+  image: string;
+  title: string;
+  description: string;
+  technologies: { name: string; link?: string }[];
+  slug: string;
+  id?: string;
+}
+---
+
+<Layout title="Servicios">
+  <section id="servicios" class="text-black py-4">
+    <img
+      src="/mac.webp"
+      alt=""
+      class="w-full h-full object-cover absolute top-0 left-0 z-0"
+    />
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
+      <div class="text-center">
+        <h2 class="text-xl font-sans">Servicios</h2>
+        <p class="text-md text-black font-mono mt-2">
+          Soluciones integrales en tecnología
+        </p>
+      </div>
+
+      <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        {
+          services.map((service) => (
+            <ServicesCard
+              slug={service.slug}
+              id={service.id}
+              image={service.bgImage}
+              title={service.title}
+              description={service.description}
+              technologies={service.technologies}
+            />
+          ))
+        }
+        <!-- <ServicesCard slug="desarrollo-fullstack" id="developer" image="/developer.webp" title="Desarrollo Fullstack" description="Creamos desde páginas simples hasta plataformas complejas, con frontend, backend y base de datos." technologies={services.find((service) => service.id === "desarrollo-fullstack")?.technologies} />
+	  
+			 <ServicesCard slug="aplicaciones-mobile" id="mobile" image="/mobile.webp" title="Aplicaciones Mobile" description="Aplicaciones móviles modernas con React Native y Expo. Foco en experiencia fluida y multiplataforma." technologies={services.find((service) => service.id === "aplicaciones-mobile")?.technologies} />
+			
+			<ServicesCard slug="pcs-y-soporte-tecnico" id="pc" image="/pc-component.webp" title="PCs y Soporte Técnico" description="Armado personalizado de PCs a pedido, venta por ML, mantenimiento y reparación profesional." technologies={ervices.find((service) => service.id === "pcs-y-soporte-tecnico")?.technologies} />
+			
+			<ServicesCard slug="consultoria-tecnica" id="consulting" image="/consulting.webp" title="Consultoría Técnica" description="Acompañamos tu proyecto digital desde la idea hasta la implementación. Diagnóstico, planificación y solución." technologies={services.find((service) => service.id === "consultoria-tecnica")?.technologies} />
+	  
+			<ServicesCard slug="transformacion-digital" id="documents" image="/documents.webp" title="Transformación Digital" description="Llevamos tus procesos del papel a la pantalla, optimizando tiempo y recursos con soluciones prácticas." technologies="Formularios web · Base de datos · Automatización de flujo" />
+	  
+			<ServicesCard slug="hosting-web" id="server" image="/server.webp" title="Hosting Web" description="Ofrecemos hosting tercerizado en DonWeb para clientes que necesiten una solución completa y sin complicaciones." technologies="Hosting · Dominio · Docker · Certificado SSL · Email" />
+			   -->
+      </div>
+    </div>
+  </section>
+</Layout>

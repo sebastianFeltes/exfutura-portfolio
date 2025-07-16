@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AboutSection from "../components/AboutSection.astro";
+---
+
+<Layout title="Sobre nosotros">
+  <section id="servicios" class="text-black">
+    <img
+      src="/bulb.webp"
+      alt="working people"
+      class="w-full h-full object-cover absolute top-0 left-0 z-0"
+    />
+    <div
+      class="relative flex flex-col gap-8 z-10 h-full max-w-6xl mx-auto px-6 py-8"
+    >
+      <h2 class="text-xl font-sans">Sobre nosotros</h2>
+      <AboutSection title="Desde el futuro">
+        La tecnología avanza todos los días, pero lo que realmente transforma
+        son las personas que la usan. En <span
+          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
+          >exFutura</span
+        > conectamos innovación con propósito, diseño con impacto y desarrollo con
+        relaciones reales. Somos un equipo en evolución constante. <span
+          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
+          >Nos apasiona resolver problemas, pero más aún, anticiparlos.</span
+        >
+      </AboutSection>
+
+      <AboutSection title="Nuestra misión">
+        Desarrollar soluciones tecnológicas con impacto real, humano y duradero.
+        Nuestra misión es <span
+          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
+          >traer el futuro al presente</span
+        > a través de herramientas que potencien ideas, transformen procesos y creen
+        oportunidades.
+      </AboutSection>
+
+      <AboutSection title="Nuestra visión">
+        No creemos en soluciones frías o genéricas. Creemos en escuchar, en
+        pensar a futuro, en construir con vos. Por eso trabajamos desde hoy con
+        la mentalidad de mañana: porque <span
+          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
+          >El futuro no se espera, se construye</span
+        >. Y lo construimos entre todos.
+      </AboutSection>
+
+      <AboutSection title="Nuestro principio">
+        Creemos en el progreso, pero con propósito. En cada línea de código,
+        decisión o prototipo, buscamos <span
+          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
+          >resolver el presente con la mentalidad del futuro</span
+        >. Lo esencial no es solo lo humano, sino lo que construimos juntos con
+        tecnología como aliada.
+      </AboutSection>
+      <div
+        class="bg-white/60 backdrop-blur-sm flex flex-col gap-2 items-center justify-center p-4 rounded-lg"
+      >
+        <h2 class="text-3xl font-sans text-shadow-sm text-black">exFutura</h2>
+        <p class="text-center underline underline-offset-2 decoration-red-600 text-black">Lo que viene, lo creamos juntos.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

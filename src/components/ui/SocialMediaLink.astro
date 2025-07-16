@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  icon: string;
+  label: string;
+}
+
+const { href, icon, label } = Astro.props;
+---
+
+<a
+href={href}
+target="_blank"
+class="w-1/2 px-4 py-2 rounded-lg flex gap-2 items-center text-md border border-black/50 shadow-md shadow-black/50 hover:shadow-lg hover:border-black hover:bg-white/30 hover:cursor-pointer transition"
+>
+<img
+  src={icon}
+  alt={label}
+  class="inline-block w-6 h-6"
+/>
+{label}
+</a>

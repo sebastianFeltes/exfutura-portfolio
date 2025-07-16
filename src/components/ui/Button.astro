@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string;
+  btnType: "submit" | "reset" | "button";
+}
+
+const { text, btnType } = Astro.props;
+---
+
+<button
+  class="bg-black text-white p-2 rounded-lg w-full hover:bg-gray-800 transition hover:cursor-pointer"
+  type={btnType}>{text}</button
+>
+

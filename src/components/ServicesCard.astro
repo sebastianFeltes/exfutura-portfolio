@@ -1,0 +1,23 @@
+---
+interface Props {
+    image: string;
+    title: string;
+    description: string;
+    technologies: {name: string, link?: string}[];
+    slug: string;
+    id?: string;
+} 
+
+const { image, title, description, technologies, slug, id} = Astro.props;
+---
+
+<a href={`/services/${slug}`} class="flex flex-col gap-4 bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-gray-50 shadow-md shadow-black/50 hover:border-black hover:shadow-lg transition-all">
+    <img transition:name={`image-${slug}`} src={image} alt={title} id={id} class="w-full h-64 object-fill rounded-lg " />
+    <h3 class="text-md font-sans text-end underline underline-offset-2 decoration-red-600">{title}</h3>
+    <p class="text-xs text-black font-sans">
+      {description}
+    </p>
+    <p class="text-xs text-red-600 font-mono text-justify">
+      {technologies?.map((tech) => tech.name).join(" | ")}
+    </p>
+</a>

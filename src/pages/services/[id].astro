@@ -1,0 +1,104 @@
+---
+import SectionTitle from "../../components/SectionTitle.astro";
+import ServicesSection from "../../components/ServicesSection.astro";
+import Layout from "../../layouts/Layout.astro";
+import { services } from "../../data/services.js";
+
+const { id } = Astro.params;
+const foundService = services.find((service) => service.id === id);
+
+export async function getStaticPaths() {
+  return [
+    { params: { id: "desarrollo-fullstack" } },
+    { params: { id: "aplicaciones-mobile" } },
+    { params: { id: "pcs-y-soporte-tecnico" } },
+    { params: { id: "consultoria-tecnica" } },
+    { params: { id: "transformacion-digital" } },
+    { params: { id: "hosting-web" } },
+  ];
+}
+---
+
+<Layout title="Servicio">
+  <div
+    class={`flex flex-col justify-center items-center bg-[url('/mac.webp')] bg-fixed bg-cover lg:bg-center bg-right`}
+  >
+    <section
+      class="flex flex-col gap-4 px-4 py-8 justify-center items-center relative lg:w-3/4 backdrop-blur-md bg-white/50"
+    >
+      <div class="flex lg:flex-row flex-col gap-4">
+        <img
+          transition:name={`image-${id}`}
+          src={services.find((service) => service.id === id)?.bgImage}
+          alt={services.find((service) => service.id === id)?.title}
+          class="lg:w-1/2 w-full h-full object-cover rounded-lg shadow-lg lg:shadow-black/50"
+        />
+        <div class="flex flex-col gap-4 justify-between">
+          <SectionTitle
+            title={services.find((service) => service.id === id)?.title}
+            subtitle={services.find((service) => service.id === id)?.subtitle}
+          />
+          <p class="text-md text-center z-10 italic">
+            {services.find((service) => service.id === id)?.description}
+          </p>
+          <p class="text-xs text-left z-10">
+            {services.find((service) => service.id === id)?.longDescription}
+          </p>
+        </div>
+      </div>
+      <span
+        class="flex gap-4 border-y border-red-500 p-2 text-sm text-red-600 font-mono text-center z-10"
+      >
+        {
+          services
+            .find((service) => service.id === id)
+            ?.technologies?.map((tech, index) =>
+              tech.link ? (
+                <a href={tech.link} target="_blank" class="underline decoration-red-400 underline-offset-2 hover:decoration-red-600 transition">
+                  {tech.name}
+                </a>
+              ) : (
+                <p>{tech.name}</p>
+              )
+            )
+        }
+      </span>
+      <!-- <a
+        href={services.find((service) => service.id === id)?.technologies?.links?.join(" | ")}
+        class="border-y border-red-500 p-2 text-sm text-red-600 font-mono text-center z-10"
+      >
+        {services.find((service) => service.id === id)?.technologies?.names?.join(" | ")}
+      </a> -->
+      <ServicesSection
+        title="¿Qué incluye?"
+        list={services.find((service) => service.id === id)?.features}
+      />
+      <ServicesSection
+        title="¿Para quién es?"
+        list={services.find((service) => service.id === id)?.targetAudience}
+      />
+      <ServicesSection
+        title="Beneficios"
+        list={services.find((service) => service.id === id)?.benefits}
+      />
+      <ServicesSection
+        title="Nuestro proceso de trabajo"
+        list={services.find((service) => service.id === id)?.process}
+      />
+      {
+        foundService &&
+          foundService.projects &&
+          foundService.projects.length > 0 && (
+            <ServicesSection
+              title="Proyectos relacionados"
+              projects={foundService.projects}
+            />
+          )
+      }
+      <ServicesSection
+        title="Preguntas frecuentes"
+        list={services.find((service) => service.id === id)?.faqs}
+      />
+    </section>
+  </div>
+</Layout>

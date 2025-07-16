@@ -1,0 +1,8 @@
+---
+// src/components/SectionTitle.astro
+const { title, subtitle } = Astro.props;
+---
+<section class="text-center z-10">
+  <h2 class="text-xl font-bold text-black font-sans">{title}</h2>
+  {subtitle && <p class="text-black font-mono text-sm underline underline-offset-2 decoration-red-600">{subtitle}</p>}
+</section>

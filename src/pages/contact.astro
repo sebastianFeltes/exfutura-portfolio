@@ -1,0 +1,132 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import Button from "../components/ui/Button.astro";
+import SocialMediaLink from "../components/ui/SocialMediaLink.astro";
+
+const socialMedia = [
+  {
+    href: "https://www.instagram.com/exfutura/",
+    icon: "/instagram-icon.png",
+    label: "Instagram",
+  },
+  {
+    href: "https://www.linkedin.com/company/exfutura/",
+    icon: "/linkedin-icon.svg",
+    label: "LinkedIn",
+  },
+  {
+    href: "https://wa.link/rxypzc",
+    icon: "/whatsapp-icon.png",
+    label: "WhatsApp",
+  },
+];
+---
+
+<Layout title="Contacto">
+  <section
+    id="contacto"
+    class="lg:p-4 text-black h-full w-full flex justify-between items-center bg-[url('/email.webp')] bg-fixed bg-contain bg-center bg-no-repeat"
+  >
+    <!-- Formulario -->
+    <div
+      class="w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col gap-2 h-[500px] p-4 rounded-lg"
+    >
+      <span class="flex flex-col gap-2">
+        <p
+          class="underline underline-offset-2 decoration-red-600 text-lg text-black font-sans"
+        >
+          Envíanos un mensaje
+        </p>
+        <p class="text-xs">¡te responderemos lo antes posible!</p>
+      </span>
+
+      <!-- Mensaje de error -->
+      <span id="error-msg" class="text-red-600 text-xs hidden">
+        Por favor completá todos los campos correctamente.
+      </span>
+
+      <form
+        id="contact-form"
+        class="flex flex-col gap-2 h-full"
+        action="https://formspree.io/f/mldlrenw"
+        method="POST"
+      >
+        <label class="flex flex-col gap-2 text-left text-sm w-full">
+          Email:
+          <input
+            id="email"
+            class="border p-2 rounded-lg w-full"
+            required
+            placeholder="tu-email@example.com"
+            type="email"
+            name="email"
+          />
+        </label>
+        <label class="flex flex-col gap-2 text-left text-sm w-full">
+          Mensaje:
+          <textarea
+            id="message"
+            class="border p-2 rounded-lg resize-none w-full h-32"
+            required
+            placeholder="Hola, me gustaría que me hagas un presupuesto para..."
+            name="message"></textarea>
+        </label>
+        <Button btnType="submit" text="Enviar" />
+      </form>
+    </div>
+
+    <!-- Redes -->
+    <div
+      class="w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col justify-start gap-4 h-[500px] p-4 rounded-lg"
+    >
+      <p
+        class="underline underline-offset-2 decoration-red-600 text-lg text-black font-sans"
+      >
+        Seguinos en nuestras redes
+      </p>
+      <div class="flex flex-col gap-4 items-center justify-start">
+        {
+          socialMedia
+            .filter((social) => social.label !== "WhatsApp")
+            .map((social) => (
+              <SocialMediaLink
+                href={social.href}
+                icon={social.icon}
+                label={social.label}
+              />
+            ))
+        }
+      </div>
+      <div class="flex flex-col gap-4 items-center justify-start">
+        <p
+          class="underline underline-offset-2 decoration-red-600 text-lg text-black font-sans"
+        >
+          Tambien podés enviarnos un whatsapp
+        </p>
+        <SocialMediaLink
+          href="https://wa.link/rxypzc"
+          icon="/whatsapp-icon.png"
+          label="WhatsApp"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Validación con JS -->
+  <script is:inline>
+    const form = document.getElementById("contact-form");
+    const email = document.getElementById("email");
+    const message = document.getElementById("message");
+    const errorMsg = document.getElementById("error-msg");
+
+    form.addEventListener("submit", function (e) {
+      if (!email.value.trim() || !message.value.trim()) {
+        e.preventDefault();
+        errorMsg.classList.remove("hidden");
+      } else {
+        errorMsg.classList.add("hidden");
+      }
+    });
+  </script>
+</Layout>

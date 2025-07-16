@@ -1,0 +1,83 @@
+---
+
+---
+
+<script is:inline>
+  const toggleMenu = () => {
+    const menu = document.getElementById("mobile-menu");
+    if (menu) {
+      menu.classList.toggle("hidden");
+    }
+  };
+</script>
+
+<header class="bg-black text-white z-50">
+  <div
+    class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center text-gray-400"
+  >
+    <a
+      href="/"
+      class="text-xl font-semibold font-mono hover:text-white transition text-shadow-sm"
+      >exFutura</a
+    >
+
+    <!-- Botón hamburguesa -->
+    <button
+      class="md:hidden flex items-center px-3 py-2 border rounded text-gray-400 border-gray-600 hover:text-white hover:border-white"
+      onclick="toggleMenu()"
+    >
+      <svg
+        class="fill-current h-4 w-4"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Menú</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+      </svg>
+    </button>
+
+    <!-- Menú desktop -->
+    <nav class="hidden md:flex">
+      <ul class="flex gap-6 font-mono text-sm">
+        <li>
+          <a
+            class="hover:text-white hover:border-b-2 border-white transition"
+            href="/services">Servicios</a>
+        </li>
+        <!-- <li><a class="hover:text-white hover:border-b-2 border-white transition" href="/projects">Proyectos</a></li> -->
+        <li>
+          <a
+            class="hover:text-white hover:border-b-2 border-white transition"
+            href="/about">Sobre nosotros</a>
+        </li>
+        <li>
+          <a
+            class="hover:text-white hover:border-b-2 border-white transition"
+            href="/contact">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Menú mobile -->
+  <nav id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+    <ul class="flex flex-col gap-4 font-mono text-sm text-gray-300 text-end">
+      <li>
+        <a
+          class="block hover:text-white border-b border-gray-700 pb-2"
+          href="/services">Servicios</a>
+      </li>
+      <!-- <li><a class="block hover:text-white border-b border-gray-700 pb-2" href="/projects">Proyectos</a></li> -->
+      <li>
+        <a
+          class="block hover:text-white border-b border-gray-700 pb-2"
+          href="/about">Sobre nosotros</a>
+      </li>
+      <li>
+        <a
+          class="block hover:text-white border-b border-gray-700 pb-2"
+          href="/contact">Contacto</a>
+      </li>
+    </ul>
+  </nav>
+</header>

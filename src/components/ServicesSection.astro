@@ -1,0 +1,13 @@
+---
+const { title, list, projects } = Astro.props;
+---
+
+<div class="flex flex-col gap-4 text-left justify-center items-center lg:w-1/2 border p-4 rounded-lg bg-white/50 backdrop-blur-md">
+    <h2 class="font-bold text-md">{title}</h2>
+    {list&&<ul class="list-disc list-inside font-mono space-y-2">
+      {list?.map((item) => <li key={item} class="flex flex-col gap-2 text-sm">{ typeof item === 'object' ? <p class="font-bold text-sm">{item.q}</p><p>{item.a}</p> : <p class="font-mono">{item}</p>}</li>)}
+    </ul>}
+    {projects&&<ul class="list-disc list-inside font-mono space-y-2">
+      {projects?.map((item) => <li key={item.name} class="flex flex-col gap-2">{ typeof item === 'object' ? <p><a href={item.url} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition underline">{item.name}</a></p><p class="text-sm italic">{item.description}</p> : <p class="font-mono text-sm">{item}</p>}</li>)}
+    </ul>}
+</div>
