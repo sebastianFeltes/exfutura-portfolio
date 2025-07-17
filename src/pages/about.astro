@@ -4,6 +4,7 @@ import AboutSection from "../components/AboutSection.astro";
 ---
 
 <Layout title="Sobre nosotros">
+
   <section id="servicios" class="text-black">
     <img
       src="/bulb.webp"
@@ -13,7 +14,17 @@ import AboutSection from "../components/AboutSection.astro";
     <div
       class="relative flex flex-col gap-8 z-10 h-full max-w-6xl mx-auto px-6 py-8"
     >
-      <h2 class="text-xl font-sans">Sobre nosotros</h2>
+    <div
+        class="w-full flex flex-col gap-2 items-center justify-center p-4"
+      >
+        <h2 class="text-3xl font-sans text-shadow-sm text-black">exFutura</h2>
+        <p
+          class="anim-typewriter line-1"
+        >
+          Lo que viene, lo creamos juntos...
+        </p>
+      </div>
+      <!-- <h2 class="text-xl font-sans">Sobre nosotros</h2> -->
       <AboutSection title="Desde el futuro">
         La tecnología avanza todos los días, pero lo que realmente transforma
         son las personas que la usan. En <span
@@ -52,12 +63,7 @@ import AboutSection from "../components/AboutSection.astro";
         >. Lo esencial no es solo lo humano, sino lo que construimos juntos con
         tecnología como aliada.
       </AboutSection>
-      <div
-        class="bg-white/60 backdrop-blur-sm flex flex-col gap-2 items-center justify-center p-4 rounded-lg"
-      >
-        <h2 class="text-3xl font-sans text-shadow-sm text-black">exFutura</h2>
-        <p class="text-center underline underline-offset-2 decoration-red-600 text-black">Lo que viene, lo creamos juntos.</p>
-      </div>
+      
     </div>
   </section>
 </Layout>
