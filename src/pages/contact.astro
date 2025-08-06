@@ -10,11 +10,11 @@ const socialMedia = [
     icon: "/instagram-icon.png",
     label: "Instagram",
   },
-  {
-    href: "https://www.linkedin.com/company/exfutura.dev/",
-    icon: "/linkedin-icon.svg",
-    label: "LinkedIn",
-  },
+  // {
+  //   href: "https://www.linkedin.com/company/exfutura.dev/",
+  //   icon: "/linkedin-icon.svg",
+  //   label: "LinkedIn",
+  // },
   {
     href: "https://wa.link/rxypzc",
     icon: "/whatsapp-icon.png",
@@ -26,11 +26,14 @@ const socialMedia = [
 <Layout title="Contacto">
   <section
     id="contacto"
-    class="lg:p-4 text-black h-full w-full flex justify-between items-center bg-[url('/email.webp')] bg-fixed bg-contain bg-center bg-no-repeat"
+    class="py-4 px-2 gap-4 text-black h-full overflow-y-scroll w-full flex flex-col lg:flex-row lg:flex-wrap justify-between items-start bg-[url('/email.webp')] bg-fixed bg-cover lg:bg-contain bg-center bg-no-repeat"
   >
+    <div class="text-center w-full">
+      <h2 class="text-xl font-sans underline underline-offset-2 decoration-red-600">Contactanos</h2>
+    </div>
     <!-- Formulario -->
     <div
-      class="w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col gap-2 h-[500px] p-4 rounded-lg"
+      class="w-full lg:w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col gap-2 h-[400px] p-4 border border-gray-200 rounded-lg"
     >
       <span class="flex flex-col gap-2">
         <p
@@ -78,7 +81,7 @@ const socialMedia = [
 
     <!-- Redes -->
     <div
-      class="w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col justify-start gap-4 h-[500px] p-4 rounded-lg"
+      class="w-full lg:w-1/3 bg-white/60 backdrop-blur-sm shadow-lg text-center flex flex-col justify-start gap-4 h-[400px] p-4 border border-gray-200 rounded-lg"
     >
       <p
         class="underline underline-offset-2 decoration-red-600 text-lg text-black font-sans"
