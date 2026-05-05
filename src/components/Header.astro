@@ -1,85 +1,152 @@
 ---
+import ThemeToggle from "./ThemeToggle.astro";
 
+const links = [
+  { 
+    href: "/services", 
+    label: "Servicios",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>`
+  },
+  { 
+    href: "/about", 
+    label: "Sobre nosotros",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.19-5.07-7"/><path d="M16 5c2.18 0 4 1.72 4 3.81 0 .59-.13 1.14-.39 1.62"/></svg>`
+  },
+  { 
+    href: "/contact", 
+    label: "Contacto",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`
+  },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<script is:inline>
-  const toggleMenu = () => {
-    const menu = document.getElementById("mobile-menu");
-    if (menu) {
-      menu.classList.toggle("hidden");
-    }
-  };
-</script>
+<header class="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-6 pointer-events-none flex justify-center w-full">
+  <div class="pointer-events-auto w-full max-w-4xl glass-panel-light rounded-full px-6 py-3 flex justify-between items-center transition-all duration-300 border border-glass-border">
+    <a href="/" class="flex items-center gap-3 group relative overflow-hidden" onclick={currentPath === '/' ? "event.preventDefault();" : ""}>
+      <img src="/xF-logo.png" alt="exFutura" class="w-10 h-auto transition-transform duration-500 group-hover:scale-110 invert theme-icon" >
+      <span class="font-display font-bold text-lg tracking-wide hidden sm:block opacity-0 transform -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-text-primary">exFutura</span>
+    </a>
 
-<header class="bg-black text-white z-50">
-  <div
-    class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center text-gray-400"
-  >
-    <a
-      href="/"
-      class="drop-shadow-sm drop-shadow-white/80 hover:drop-shadow-lg hover:drop-shadow-white backdrop-blur-sm border border-white rounded-full transition-all duration-200 hover:border-black hover:bg-white/10"
-      >
-      <img src="/xF-logo.png" alt="exFutura-logo" class="w-16" >
-      </a
-    >
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-8">
+      <nav class="flex items-center gap-8">
+        {links.map(link => {
+          const isActive = currentPath.startsWith(link.href);
+          return (
+            <a 
+              href={link.href} 
+              onclick={isActive ? "event.preventDefault();" : ""}
+              class={`relative text-sm font-medium transition-colors duration-300 group flex items-center gap-2 ${isActive ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+            >
+              <Fragment set:html={link.icon} />
+              {link.label}
+              <span class={`absolute -bottom-1 left-0 h-[2px] bg-accent-red transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+            </a>
+          );
+        })}
+      </nav>
+      <div class="w-[1px] h-4 bg-glass-border"></div>
+      <ThemeToggle />
+    </div>
 
-    <!-- Botón hamburguesa -->
-    <button
-      class="md:hidden flex items-center px-3 py-2 border rounded text-gray-400 border-gray-600 hover:text-white hover:border-white"
-      onclick="toggleMenu()"
-    >
-      <svg
-        class="fill-current h-4 w-4"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <title>Menú</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-      </svg>
-    </button>
-
-    <!-- Menú desktop -->
-    <nav class="hidden md:flex">
-      <ul class="flex gap-6 font-mono text-sm">
-        <li>
-          <a
-            class="hover:text-white hover:border-b-2 border-white transition"
-            href="/services">Servicios</a>
-        </li>
-        <!-- <li><a class="hover:text-white hover:border-b-2 border-white transition" href="/projects">Proyectos</a></li> -->
-        <li>
-          <a
-            class="hover:text-white hover:border-b-2 border-white transition"
-            href="/about">Sobre nosotros</a>
-        </li>
-        <li>
-          <a
-            class="hover:text-white hover:border-b-2 border-white transition"
-            href="/contact">Contacto</a>
-        </li>
-      </ul>
-    </nav>
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center gap-4 md:hidden">
+      <ThemeToggle />
+      <button id="mobile-menu-btn" class="flex flex-col justify-center items-center w-8 h-8 gap-[5px] focus:outline-none">
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left"></span>
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300"></span>
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left"></span>
+      </button>
+    </div>
   </div>
 
-  <!-- Menú mobile -->
-  <nav id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-    <ul class="flex flex-col gap-4 font-mono text-sm text-gray-300 text-end">
-      <li>
-        <a
-          class="block hover:text-white border-b border-gray-700 pb-2"
-          href="/services">Servicios</a>
-      </li>
-      <!-- <li><a class="block hover:text-white border-b border-gray-700 pb-2" href="/projects">Proyectos</a></li> -->
-      <li>
-        <a
-          class="block hover:text-white border-b border-gray-700 pb-2"
-          href="/about">Sobre nosotros</a>
-      </li>
-      <li>
-        <a
-          class="block hover:text-white border-b border-gray-700 pb-2"
-          href="/contact">Contacto</a>
-      </li>
-    </ul>
-  </nav>
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-menu-overlay" class="fixed inset-0 bg-bg-primary/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center">
+    <nav class="flex flex-col items-center gap-10 text-2xl font-display">
+      {links.map((link, i) => {
+        const isActive = currentPath.startsWith(link.href);
+        return (
+          <a 
+            href={link.href} 
+            onclick={isActive ? "event.preventDefault();" : ""}
+            class={`mobile-link transition-all duration-300 translate-y-8 opacity-0 relative group flex items-center gap-4 ${isActive ? 'text-text-primary scale-110' : 'text-text-secondary hover:text-text-primary hover:scale-110'}`} 
+            style={`transition-delay: ${i * 100}ms`}
+          >
+            <div class="opacity-50 group-hover:opacity-100 transition-opacity">
+              <Fragment set:html={link.icon.replace('width="18"', 'width="28"').replace('height="18"', 'height="28"')} />
+            </div>
+            {link.label}
+            <span class={`absolute -bottom-2 left-0 h-[3px] bg-accent-red transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+          </a>
+        );
+      })}
+    </nav>
+  </div>
 </header>
+
+<style is:global>
+  [data-theme="light"] .theme-icon {
+    filter: none;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('mobile-menu-btn');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    const links = document.querySelectorAll('.mobile-link');
+    const spans = btn?.querySelectorAll('span');
+    let isOpen = false;
+
+    if (!btn || !overlay) return;
+
+    btn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      
+      if (isOpen) {
+        // Open
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100', 'pointer-events-auto');
+        
+        // Animate hamburger to X
+        if(spans) {
+          spans[0].style.transform = 'rotate(45deg) translate(0px, -2px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(0px, 2px)';
+        }
+
+        // Animate links
+        links.forEach(link => {
+          link.classList.remove('translate-y-8', 'opacity-0');
+          link.classList.add('translate-y-0', 'opacity-100');
+        });
+      } else {
+        // Close
+        overlay.classList.remove('opacity-100', 'pointer-events-auto');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        
+        // Revert X to hamburger
+        if(spans) {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+
+        // Reset links
+        links.forEach(link => {
+          link.classList.remove('translate-y-0', 'opacity-100');
+          link.classList.add('translate-y-8', 'opacity-0');
+        });
+      }
+    });
+
+    // Close menu when clicking a link
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        btn.click();
+      });
+    });
+  });
+</script>

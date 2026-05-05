@@ -1,13 +1,53 @@
 ---
-const { title, list, projects } = Astro.props;
+const { title, list, projects, delay = 0 } = Astro.props;
 ---
 
-<div class="flex flex-col gap-4 text-left justify-center items-center lg:w-1/2 border p-4 rounded-lg bg-white/50 backdrop-blur-md">
-    <h2 class="font-bold text-md">{title}</h2>
-    {list&&<ul class="list-disc list-inside font-mono space-y-2">
-      {list?.map((item) => <li key={item} class="flex flex-col gap-2 text-sm">{ typeof item === 'object' ? <p class="font-bold text-sm">{item.q}</p><p>{item.a}</p> : <p class="font-mono">{item}</p>}</li>)}
-    </ul>}
-    {projects&&<ul class="list-disc list-inside font-mono space-y-2">
-      {projects?.map((item) => <li key={item.name} class="flex flex-col gap-2">{ typeof item === 'object' ? <p><a href={item.url} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition underline">{item.name}</a></p><p class="text-sm italic">{item.description}</p> : <p class="font-mono text-sm">{item}</p>}</li>)}
-    </ul>}
+<div 
+  class="flex flex-col gap-6 text-left w-full glass-panel p-6 sm:p-8 rounded-2xl border border-glass-border"
+>
+    <h2 class="font-display font-medium text-xl text-text-primary">{title}</h2>
+    
+    {list && (
+      <ul class="flex flex-col gap-4 font-sans text-text-secondary">
+        {list?.map((item: any) => (
+          <li class="flex items-start gap-3">
+            <span class="text-accent-red mt-1 flex-shrink-0">•</span>
+            <div class="flex flex-col gap-1">
+              {typeof item === 'object' ? (
+                <>
+                  <p class="font-medium text-text-primary">{item.q}</p>
+                  <p class="text-sm text-text-secondary/80 leading-relaxed">{item.a}</p>
+                </>
+              ) : (
+                <p class="text-sm leading-relaxed">{item}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+    
+    {projects && (
+      <ul class="flex flex-col gap-4 font-sans text-text-secondary">
+        {projects?.map((item: any) => (
+          <li class="flex items-start gap-3">
+            <span class="text-accent-red mt-1 flex-shrink-0">•</span>
+            <div class="flex flex-col gap-1">
+              {typeof item === 'object' ? (
+                <>
+                  <p>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="text-accent-red hover:text-text-primary transition-colors underline decoration-accent-red/30 hover:decoration-text-primary font-medium">
+                      {item.name}
+                    </a>
+                  </p>
+                  <p class="text-sm text-text-secondary/80 leading-relaxed">{item.description}</p>
+                </>
+              ) : (
+                <p class="text-sm leading-relaxed">{item}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
 </div>

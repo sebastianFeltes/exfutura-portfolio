@@ -9,14 +9,20 @@ const { href, icon, label } = Astro.props;
 ---
 
 <a
-href={href}
-target="_blank"
-class="w-64 px-4 py-2 rounded-lg flex gap-2 items-center justify-center text-md border border-black/50 shadow-md shadow-black/50 hover:shadow-lg hover:border-black hover:bg-white/30 hover:cursor-pointer transition"
+  href={href}
+  target="_blank"
+  class="group flex items-center justify-center gap-3 w-full sm:w-64 px-6 py-4 rounded-xl border border-glass-border bg-glass-bg-light hover:bg-glass-border transition-all duration-300 hover:-translate-y-1"
 >
-<img
-  src={icon}
-  alt={label}
-  class="inline-block w-6 h-6"
-/>
-{label}
+  <img
+    src={icon}
+    alt={label}
+    class="w-6 h-6 transition-transform duration-300 group-hover:scale-110 invert opacity-80 group-hover:opacity-100 theme-icon"
+  />
+  <span class="font-sans font-medium text-text-secondary group-hover:text-text-primary transition-colors">{label}</span>
 </a>
+
+<style>
+  [data-theme="light"] .theme-icon {
+    filter: none;
+  }
+</style>

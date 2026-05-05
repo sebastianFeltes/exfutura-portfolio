@@ -14,24 +14,33 @@ interface Props {
 ---
 
 <Layout title="Servicios">
-  <section id="servicios" class="text-black py-4">
-    <img
-      src="/mac.webp"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-      alt=""
-      class="w-full h-full object-cover absolute top-0 left-0 z-0"
-    />
-    <div class="relative z-10 max-w-6xl mx-auto px-6">
-      <div class="text-center">
-        <h2 class="text-xl font-sans underline underline-offset-2 decoration-red-600">Servicios</h2>
-        <p class="text-md text-black font-mono mt-2">
+  <section id="servicios" class="relative min-h-screen pt-24 pb-12 overflow-hidden">
+    <!-- Background Image with Dark Overlay -->
+    <div class="absolute inset-0 z-0 fixed" transition:persist="services-bg">
+      <div class="absolute inset-0 bg-[var(--overlay-color)] mix-blend-multiply z-10"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"></div>
+      <img
+        src="/mac.webp"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        alt="Mac computer background"
+        class="w-full h-full object-cover object-center"
+      />
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-6xl mx-auto px-6 flex flex-col gap-12">
+      <!-- Header -->
+      <div class="text-center pt-8 pb-4">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-text-primary tracking-tight">Servicios</h1>
+        <div class="w-12 h-[2px] bg-accent-red/60 mx-auto mt-4 mb-2"></div>
+        <p class="text-xl md:text-2xl font-sans font-light text-text-secondary">
           Soluciones integrales en tecnología
         </p>
       </div>
 
-      <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {
           services.map((service) => (
             <ServicesCard
@@ -44,18 +53,6 @@ interface Props {
             />
           ))
         }
-        <!-- <ServicesCard slug="desarrollo-fullstack" id="developer" image="/developer.webp" title="Desarrollo Fullstack" description="Creamos desde páginas simples hasta plataformas complejas, con frontend, backend y base de datos." technologies={services.find((service) => service.id === "desarrollo-fullstack")?.technologies} />
-	  
-			 <ServicesCard slug="aplicaciones-mobile" id="mobile" image="/mobile.webp" title="Aplicaciones Mobile" description="Aplicaciones móviles modernas con React Native y Expo. Foco en experiencia fluida y multiplataforma." technologies={services.find((service) => service.id === "aplicaciones-mobile")?.technologies} />
-			
-			<ServicesCard slug="pcs-y-soporte-tecnico" id="pc" image="/pc-component.webp" title="PCs y Soporte Técnico" description="Armado personalizado de PCs a pedido, venta por ML, mantenimiento y reparación profesional." technologies={ervices.find((service) => service.id === "pcs-y-soporte-tecnico")?.technologies} />
-			
-			<ServicesCard slug="consultoria-tecnica" id="consulting" image="/consulting.webp" title="Consultoría Técnica" description="Acompañamos tu proyecto digital desde la idea hasta la implementación. Diagnóstico, planificación y solución." technologies={services.find((service) => service.id === "consultoria-tecnica")?.technologies} />
-	  
-			<ServicesCard slug="transformacion-digital" id="documents" image="/documents.webp" title="Transformación Digital" description="Llevamos tus procesos del papel a la pantalla, optimizando tiempo y recursos con soluciones prácticas." technologies="Formularios web · Base de datos · Automatización de flujo" />
-	  
-			<ServicesCard slug="hosting-web" id="server" image="/server.webp" title="Hosting Web" description="Ofrecemos hosting tercerizado en DonWeb para clientes que necesiten una solución completa y sin complicaciones." technologies="Hosting · Dominio · Docker · Certificado SSL · Email" />
-			   -->
       </div>
     </div>
   </section>

@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   return [
     { params: { id: "desarrollo-fullstack" } },
     { params: { id: "aplicaciones-mobile" } },
-    { params: { id: "pcs-y-soporte-tecnico" } },
+    { params: { id: "inteligencia-artificial" } },
     { params: { id: "consultoria-tecnica" } },
     { params: { id: "transformacion-digital" } },
     { params: { id: "hosting-web" } },
@@ -21,84 +21,132 @@ export async function getStaticPaths() {
 
 <Layout title="Servicio">
   <div
-    class={`flex flex-col justify-center items-center bg-[url('/mac.webp')] bg-fixed bg-cover lg:bg-center bg-right`}
+    class="relative min-h-screen pt-24 pb-12 overflow-hidden flex flex-col items-center"
   >
+    <!-- Background Image with Dark Overlay -->
+    <div class="absolute inset-0 z-0 fixed" transition:persist="services-bg">
+      <div class="absolute inset-0 bg-[var(--overlay-color)] mix-blend-multiply z-10">
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"
+      >
+      </div>
+      <img
+        src="/mac.webp"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        alt="Mac computer background"
+        class="w-full h-full object-cover object-center"
+      />
+    </div>
+
     <section
-      class="flex flex-col gap-4 px-4 py-8 justify-center items-center relative lg:w-3/4 backdrop-blur-md bg-white/50"
+      class="relative z-10 flex flex-col gap-8 px-6 py-8 justify-center items-center w-full max-w-5xl"
     >
-      <div class="flex lg:flex-row flex-col gap-4">
-        <img
-          transition:name={`image-${id}`}
-          src={services.find((service) => service.id === id)?.bgImage}
-          alt={services.find((service) => service.id === id)?.title}
-          class="lg:w-1/2 w-full h-full object-cover rounded-lg shadow-lg lg:shadow-black/50"
-        />
-        <div class="flex flex-col gap-4 justify-between">
-          <SectionTitle
-            title={services.find((service) => service.id === id)?.title}
-            subtitle={services.find((service) => service.id === id)?.subtitle}
+      <div
+        class="flex lg:flex-row flex-col gap-8 w-full glass-panel p-6 sm:p-10 rounded-3xl"
+      >
+        <div
+          transition:name={`image-container-${id}`}
+          class="lg:w-1/2 w-full h-64 lg:h-auto overflow-hidden rounded-2xl relative group bg-bg-secondary/50"
+        >
+          <div
+            class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none"
+          >
+          </div>
+          <img
+            src={foundService?.bgImage}
+            alt={foundService?.title}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
           />
-          <p class="text-md text-center z-10 italic">
-            {services.find((service) => service.id === id)?.description}
+        </div>
+        <div class="flex flex-col gap-6 justify-center lg:w-1/2">
+          <SectionTitle
+            title={foundService?.title}
+            subtitle={foundService?.subtitle}
+          />
+          <div class="w-12 h-[2px] bg-accent-red/60"></div>
+          <p class="text-lg text-text-secondary font-sans leading-relaxed">
+            {foundService?.description}
           </p>
-          <p class="text-xs text-left z-10">
-            {services.find((service) => service.id === id)?.longDescription}
+          <p class="text-sm text-text-secondary/80 font-sans leading-relaxed">
+            {foundService?.longDescription}
           </p>
+
+          <!-- Technologies -->
+          <div class="flex flex-wrap gap-2 mt-2">
+            {
+              foundService?.technologies?.map((tech) =>
+                tech.link ? (
+                  <a
+                    href={tech.link}
+                    target="_blank"
+                    class="bg-accent-red-dim px-3 py-1.5 rounded-lg border border-accent-red/20 text-xs text-accent-red font-mono tracking-wide hover:bg-accent-red/20 transition-colors"
+                  >
+                    {tech.name}
+                  </a>
+                ) : (
+                  <span class="bg-accent-red-dim px-3 py-1.5 rounded-lg border border-accent-red/20 text-xs text-accent-red font-mono tracking-wide">
+                    {tech.name}
+                  </span>
+                ),
+              )
+            }
+          </div>
         </div>
       </div>
-      <span
-        class="flex gap-4 border-y border-red-500 p-2 text-sm text-red-600 font-mono text-center z-10"
-      >
-        {
-          services
-            .find((service) => service.id === id)
-            ?.technologies?.map((tech, index) =>
-              tech.link ? (
-                <a href={tech.link} target="_blank" class="underline decoration-red-400 underline-offset-2 hover:decoration-red-600 transition">
-                  {tech.name}
-                </a>
-              ) : (
-                <p>{tech.name}</p>
-              )
-            )
-        }
-      </span>
-      <!-- <a
-        href={services.find((service) => service.id === id)?.technologies?.links?.join(" | ")}
-        class="border-y border-red-500 p-2 text-sm text-red-600 font-mono text-center z-10"
-      >
-        {services.find((service) => service.id === id)?.technologies?.names?.join(" | ")}
-      </a> -->
-      <ServicesSection
-        title="¿Qué incluye?"
-        list={services.find((service) => service.id === id)?.features}
-      />
-      <ServicesSection
-        title="¿Para quién es?"
-        list={services.find((service) => service.id === id)?.targetAudience}
-      />
-      <ServicesSection
-        title="Beneficios"
-        list={services.find((service) => service.id === id)?.benefits}
-      />
-      <ServicesSection
-        title="Nuestro proceso de trabajo"
-        list={services.find((service) => service.id === id)?.process}
-      />
+
+      <div class="w-full flex flex-col lg:flex-row gap-6 items-stretch">
+        <ServicesSection
+          title="¿Qué incluye?"
+          list={foundService?.features}
+          delay={100}
+        />
+        <ServicesSection
+          title="¿Para quién es?"
+          list={foundService?.targetAudience}
+          delay={200}
+        />
+      </div>
+
+      <div class="w-full flex flex-col lg:flex-row gap-6 items-stretch">
+        <ServicesSection
+          title="Beneficios"
+          list={foundService?.benefits}
+          delay={300}
+        />
+        <ServicesSection
+          title="Nuestro proceso de trabajo"
+          list={foundService?.process}
+          delay={400}
+        />
+      </div>
+
       {
         foundService &&
           foundService.projects &&
           foundService.projects.length > 0 && (
-            <ServicesSection
-              title="Proyectos relacionados"
-              projects={foundService.projects}
-            />
+            <div class="w-full">
+              <ServicesSection
+                title="Proyectos relacionados"
+                projects={foundService.projects}
+                delay={500}
+              />
+            </div>
           )
       }
-      <ServicesSection
-        title="Preguntas frecuentes"
-        list={services.find((service) => service.id === id)?.faqs}
-      />
+
+      <div class="w-full">
+        <ServicesSection
+          title="Preguntas frecuentes"
+          list={foundService?.faqs}
+          delay={600}
+        />
+      </div>
     </section>
   </div>
 </Layout>

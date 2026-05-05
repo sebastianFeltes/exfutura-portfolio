@@ -2,13 +2,16 @@
 interface Props {
   text: string;
   btnType: "submit" | "reset" | "button";
+  icon?: string;
 }
 
-const { text, btnType } = Astro.props;
+const { text, btnType, icon } = Astro.props;
 ---
 
 <button
-  class="bg-black text-white p-2 rounded-lg w-full hover:bg-gray-800 transition hover:cursor-pointer"
-  type={btnType}>{text}</button
+  class="bg-text-primary text-bg-primary font-sans font-medium px-6 py-3 rounded-xl w-full hover:opacity-90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+  type={btnType}
 >
-
+  {icon && <Fragment set:html={icon} />}
+  {text}
+</button>

@@ -4,68 +4,56 @@ import AboutSection from "../components/AboutSection.astro";
 ---
 
 <Layout title="Sobre nosotros">
+  <section id="servicios" class="relative min-h-screen pt-24 pb-12 overflow-hidden">
+    <!-- Background Image with Dark Overlay -->
+    <div class="absolute inset-0 z-0 fixed">
+      <div class="absolute inset-0 bg-[var(--overlay-color)] mix-blend-multiply z-10"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"></div>
+      <img
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        src="/bulb.webp"
+        alt="working people"
+        class="w-full h-full object-cover object-center"
+      />
+    </div>
 
-  <section id="servicios" class="text-black">
-    <img
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-      src="/bulb.webp"
-      alt="working people"
-      class="w-full h-full object-cover absolute top-0 left-0 z-0"
-    />
-    <div
-      class="relative flex flex-col gap-8 z-10 h-full max-w-6xl mx-auto px-6 py-8"
-    >
-    <div
-        class="w-full flex flex-col gap-2 items-center justify-center p-4"
-      >
-        <h2 class="text-3xl font-sans text-shadow-sm text-black">exFutura</h2>
-        <p
-          class="anim-typewriter line-1"
-        >
+    <!-- Content -->
+    <div class="relative z-10 h-full max-w-5xl mx-auto px-6 py-8 flex flex-col gap-12">
+      
+      <!-- Header -->
+      <div class="w-full flex flex-col gap-4 items-center justify-center pt-8 pb-4">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-text-primary tracking-tight">exFutura</h1>
+        <div class="w-12 h-[2px] bg-accent-red/60"></div>
+        <p class="text-xl md:text-2xl font-sans font-light text-text-secondary mt-2 text-center max-w-2xl">
           Lo que viene, lo creamos juntos...
         </p>
       </div>
-      <!-- <h2 class="text-xl font-sans">Sobre nosotros</h2> -->
-      <AboutSection title="Desde el futuro">
-        La tecnología avanza todos los días, pero lo que realmente transforma
-        son las personas que la usan. En <span
-          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
-          >exFutura</span
-        > conectamos innovación con propósito, diseño con impacto y desarrollo con
-        relaciones reales. Somos un equipo en evolución constante. <span
-          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
-          >Nos apasiona resolver problemas, pero más aún, anticiparlos.</span
-        >
-      </AboutSection>
 
-      <AboutSection title="Nuestra misión">
-        Desarrollar soluciones tecnológicas con impacto real, humano y duradero.
-        Nuestra misión es <span
-          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
-          >traer el futuro al presente</span
-        > a través de herramientas que potencien ideas, transformen procesos y creen
-        oportunidades.
-      </AboutSection>
+      <!-- Sections Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <AboutSection title="Desde el futuro">
+          La tecnología avanza todos los días, pero lo que realmente transforma son las personas que la usan. En 
+          <span class="font-display font-medium text-text-primary px-1">exFutura</span> conectamos innovación con propósito, diseño con impacto y desarrollo con relaciones reales. Somos un equipo en evolución constante. 
+          <span class="text-accent-red font-medium">Nos apasiona resolver problemas, pero más aún, anticiparlos.</span>
+        </AboutSection>
 
-      <AboutSection title="Nuestra visión">
-        No creemos en soluciones frías o genéricas. Creemos en escuchar, en
-        pensar a futuro, en construir con vos. Por eso trabajamos desde hoy con
-        la mentalidad de mañana: porque <span
-          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
-          >El futuro no se espera, se construye</span
-        >. Y lo construimos entre todos.
-      </AboutSection>
+        <AboutSection title="Nuestra misión">
+          Desarrollar soluciones tecnológicas con impacto real, humano y duradero. Nuestra misión es 
+          <span class="text-accent-red font-medium">traer el futuro al presente</span> a través de herramientas que potencien ideas, transformen procesos y creen oportunidades.
+        </AboutSection>
 
-      <AboutSection title="Nuestro principio">
-        Creemos en el progreso, pero con propósito. En cada línea de código,
-        decisión o prototipo, buscamos <span
-          class="font-mono text-sm underline underline-offset-2 decoration-red-600"
-          >resolver el presente con la mentalidad del futuro</span
-        >. Lo esencial no es solo lo humano, sino lo que construimos juntos con
-        tecnología como aliada.
-      </AboutSection>
+        <AboutSection title="Nuestra visión">
+          No creemos en soluciones frías o genéricas. Creemos en escuchar, en pensar a futuro, en construir con vos. Por eso trabajamos desde hoy con la mentalidad de mañana: porque 
+          <span class="text-accent-red font-medium">el futuro no se espera, se construye</span>. Y lo construimos entre todos.
+        </AboutSection>
+
+        <AboutSection title="Nuestro principio">
+          Creemos en el progreso, pero con propósito. En cada línea de código, decisión o prototipo, buscamos 
+          <span class="text-accent-red font-medium">resolver el presente con la mentalidad del futuro</span>. Lo esencial no es solo lo humano, sino lo que construimos juntos con tecnología como aliada.
+        </AboutSection>
+      </div>
       
     </div>
   </section>

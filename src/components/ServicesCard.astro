@@ -11,13 +11,29 @@ interface Props {
 const { image, title, description, technologies, slug, id} = Astro.props;
 ---
 
-<a href={`/services/${slug}`} class="flex flex-col gap-4 bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-gray-50 shadow-md shadow-black/50 hover:border-black hover:shadow-lg transition-all">
-    <img loading="lazy" decoding="async" fetchpriority="high" transition:name={`image-${slug}`} src={image} alt={title} id={id} class="w-full h-64 object-fill rounded-lg " />
-    <h3 class="text-md font-sans text-end underline underline-offset-2 decoration-red-600">{title}</h3>
-    <p class="text-xs text-black font-sans">
-      {description}
-    </p>
-    <p class="text-xs text-red-600 font-mono text-justify">
-      {technologies?.map((tech) => tech.name).join(" | ")}
-    </p>
+<a href={`/services/${slug}`} class="group flex flex-col gap-4 glass-panel p-5 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:-translate-y-2 relative overflow-hidden">
+    <div transition:name={`image-container-${slug}`} class="overflow-hidden rounded-xl h-48 w-full relative bg-bg-secondary/50">
+        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none"></div>
+        <img loading="eager" decoding="async" fetchpriority="high" src={image} alt={title} id={id} class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
+    </div>
+    
+    <div class="flex flex-col gap-2 flex-1">
+        <div class="flex justify-between items-center">
+            <h3 class="text-xl font-display font-medium text-text-primary group-hover:text-accent-red transition-colors">{title}</h3>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-text-secondary group-hover:text-accent-red group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </div>
+        <p class="text-sm text-text-secondary font-sans leading-relaxed line-clamp-3">
+          {description}
+        </p>
+    </div>
+    
+    <div class="pt-4 border-t border-glass-border mt-auto">
+        <p class="text-xs text-accent-red/80 font-mono tracking-wide uppercase flex flex-wrap gap-x-2 gap-y-1">
+          {technologies?.map((tech) => (
+              <span class="bg-accent-red-dim px-2 py-1 rounded border border-accent-red/20">{tech.name}</span>
+          ))}
+        </p>
+    </div>
 </a>
