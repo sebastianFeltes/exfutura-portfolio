@@ -29,5 +29,5 @@ process:
 faqs:
   - q: "¿Pueden trabajar sobre lo que ya uso hoy?"
     a: "Sí, podemos integrar tus herramientas actuales y mejorarlas."
-cta: "¿Querés digitalizar tu negocio? <a href='/#contacto' class='text-blue-600 underline'>Contactanos</a>."
+cta: "¿Querés digitalizar tu negocio? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Contactanos</a>."
 ---

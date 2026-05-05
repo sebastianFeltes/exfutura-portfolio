@@ -32,5 +32,5 @@ process:
 faqs:
   - q: "¿La app funciona sin internet?"
     a: "Depende de la necesidad, podemos implementar sistemas de caché y modo offline."
-cta: "¿Querés lanzar tu app? <a href='/#contacto' class='text-blue-600 underline'>Contanos tu idea</a>."
+cta: "¿Querés lanzar tu app? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Contanos tu idea</a>."
 ---

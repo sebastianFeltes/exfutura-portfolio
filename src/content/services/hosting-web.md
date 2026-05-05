@@ -28,5 +28,5 @@ process:
 faqs:
   - q: "¿Qué pasa si hay un problema técnico?"
     a: "Lo resolvemos nosotros directamente con el proveedor de infraestructura."
-cta: "¿Querés poner tu sitio online sin complicarte? <a href='/#contacto' class='text-blue-600 underline'>Contactanos</a>."
+cta: "¿Querés poner tu sitio online sin complicarte? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Contactanos</a>."
 ---

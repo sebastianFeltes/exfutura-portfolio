@@ -55,5 +55,5 @@ projects:
 faqs:
   - q: "¿Puedo ir viendo cómo avanza el desarrollo?"
     a: "Sí, hacemos revisiones periódicas para mostrar avances y ajustar el rumbo contigo."
-cta: "¿Querés que desarrollemos tu plataforma? <a href='/#contacto' class='text-blue-600 underline'>Contactanos</a>."
+cta: "¿Querés que desarrollemos tu plataforma? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Contactanos</a>."
 ---

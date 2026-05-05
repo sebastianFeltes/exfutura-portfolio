@@ -27,5 +27,5 @@ process:
 faqs:
   - q: "¿Tengo que saber de tecnología?"
     a: "No, nosotros traducimos la complejidad técnica a términos claros para tu negocio."
-cta: "¿Tenés un proyecto en mente? <a href='/#contacto' class='text-blue-600 underline'>Hablemos</a>."
+cta: "¿Tenés un proyecto en mente? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Hablemos</a>."
 ---

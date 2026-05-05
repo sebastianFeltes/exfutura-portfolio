@@ -33,5 +33,5 @@ process:
 faqs:
   - q: "¿Es seguro usar IA con mis datos privados?"
     a: "Totalmente. Implementamos capas de seguridad para que la IA solo use tu información de forma privada y controlada."
-cta: "¿Querés implementar IA en tu empresa? <a href='/#contacto' class='text-blue-600 underline'>Hablemos hoy</a>."
+cta: "¿Querés implementar IA en tu empresa? <a href='/exfutura-portfolio/contact' class='text-blue-600 underline'>Hablemos hoy</a>."
 ---

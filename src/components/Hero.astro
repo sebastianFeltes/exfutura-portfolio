@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import puzzleImg from "../assets/puzzle.webp";
 import ButtonLink from "./ui/ButtonLink.astro";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <section
@@ -67,7 +69,7 @@ import ButtonLink from "./ui/ButtonLink.astro";
         id="cta-container"
       >
         <a
-          href="/contact"
+          href={`${base}/contact`}
           class="px-8 py-4 bg-text-primary text-bg-primary font-sans font-medium rounded-full hover:opacity-90 transition-all duration-300 w-full sm:w-auto hover:scale-105 transform text-center flex items-center justify-center gap-2"
           aria-label="Contactar con exFutura para iniciar un proyecto"
         >
@@ -89,7 +91,7 @@ import ButtonLink from "./ui/ButtonLink.astro";
           Contactanos
         </a>
         <a
-          href="/services"
+          href={`${base}/services`}
           class="px-8 py-4 bg-transparent text-text-primary border border-text-primary/20 font-sans font-medium rounded-full hover:bg-text-primary/5 transition-all duration-300 w-full sm:w-auto hover:scale-105 transform text-center flex items-center justify-center gap-2"
           aria-label="Ver todos los servicios que ofrecemos"
         >

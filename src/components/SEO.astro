@@ -7,22 +7,24 @@ interface Props {
   type?: string;
 }
 
+const base = import.meta.env.BASE_URL;
+
 const {
   title = "exFutura | Soluciones Digitales Inteligentes",
   description = "Desarrollo web fullstack, aplicaciones móviles, inteligencia artificial y transformación digital. Convertimos tus ideas en soluciones tecnológicas escalables.",
-  image = "/og-image.png", 
-  canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://exfutura.dev"),
+  image = `${base}/og-image.png`, 
+  canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://sebastianFeltes.github.io"),
   type = "website",
 } = Astro.props;
 
-const imageURL = new URL(image, Astro.site || "https://exfutura.dev");
+const imageURL = new URL(image, Astro.site || "https://sebastianFeltes.github.io");
 const siteName = "exFutura";
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="/xF-logo.png" />
+<link rel="icon" href={`${base}/xF-logo.png`} />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
