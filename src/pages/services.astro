@@ -1,16 +1,11 @@
 ---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import macImg from "../assets/mac.webp";
 import Layout from "../layouts/Layout.astro";
 import ServicesCard from "../components/ServicesCard.astro";
-import { services } from "../data/services.js";
 
-interface Props {
-  image: string;
-  title: string;
-  description: string;
-  technologies: { name: string; link?: string }[];
-  slug: string;
-  id?: string;
-}
+const services = await getCollection("services");
 ---
 
 <Layout title="Servicios">
@@ -19,8 +14,8 @@ interface Props {
     <div class="absolute inset-0 z-0 fixed" transition:persist="services-bg">
       <div class="absolute inset-0 bg-[var(--overlay-color)] mix-blend-multiply z-10"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"></div>
-      <img
-        src="/mac.webp"
+      <Image
+        src={macImg}
         loading="eager"
         decoding="async"
         fetchpriority="high"
@@ -46,10 +41,10 @@ interface Props {
             <ServicesCard
               slug={service.slug}
               id={service.id}
-              image={service.bgImage}
-              title={service.title}
-              description={service.description}
-              technologies={service.technologies}
+              image={service.data.bgImage}
+              title={service.data.title}
+              description={service.data.description}
+              technologies={service.data.technologies}
             />
           ))
         }

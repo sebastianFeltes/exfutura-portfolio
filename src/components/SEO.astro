@@ -1,0 +1,52 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: URL;
+  type?: string;
+}
+
+const {
+  title = "exFutura | Soluciones Digitales Inteligentes",
+  description = "Desarrollo web fullstack, aplicaciones móviles, inteligencia artificial y transformación digital. Convertimos tus ideas en soluciones tecnológicas escalables.",
+  image = "/og-image.png", 
+  canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://exfutura.dev"),
+  type = "website",
+} = Astro.props;
+
+const imageURL = new URL(image, Astro.site || "https://exfutura.dev");
+const siteName = "exFutura";
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="/xF-logo.png" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageURL} />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#09090b" />

@@ -1,4 +1,8 @@
 ---
+import { Image } from "astro:assets";
+import emailImg from "../assets/email.webp";
+import instagramIcon from "../assets/instagram-icon.png";
+import whatsappIcon from "../assets/whatsapp-icon.png";
 import Layout from "../layouts/Layout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import Button from "../components/ui/Button.astro";
@@ -7,12 +11,12 @@ import SocialMediaLink from "../components/ui/SocialMediaLink.astro";
 const socialMedia = [
   {
     href: "https://www.instagram.com/exfutura.dev/",
-    icon: "/instagram-icon.png",
+    icon: instagramIcon,
     label: "Instagram",
   },
   {
     href: "https://wa.link/rxypzc",
-    icon: "/whatsapp-icon.png",
+    icon: whatsappIcon,
     label: "WhatsApp",
   },
 ];
@@ -27,8 +31,8 @@ const socialMedia = [
     <div class="absolute inset-0 z-0 fixed">
       <div class="absolute inset-0 bg-[var(--overlay-color)] mix-blend-multiply z-10"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"></div>
-      <img
-        src="/email.webp"
+      <Image
+        src={emailImg}
         loading="eager"
         decoding="async"
         fetchpriority="high"
@@ -140,7 +144,7 @@ const socialMedia = [
             <div class="flex flex-col gap-4">
               <SocialMediaLink
                 href="https://wa.link/rxypzc"
-                icon="/whatsapp-icon.png"
+                icon={whatsappIcon}
                 label="WhatsApp"
               />
             </div>

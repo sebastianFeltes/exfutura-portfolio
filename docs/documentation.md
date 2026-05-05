@@ -8,104 +8,279 @@ El proyecto está construido utilizando un stack moderno y eficiente diseñado p
 
 - **Astro**: Framework principal. Permite generar sitios estáticos ultrarrápidos (SSG), integrando componentes UI y enviando 0 JavaScript al cliente de forma predeterminada.
 - **ViewTransitions (ClientRouter)**: Funcionalidad nativa de Astro que provee una experiencia SPA (Single Page Application) al navegar, realizando animaciones de crossfade entre páginas sin recargar el navegador.
-- **Tailwind CSS**: Framework de utilidades para el estilado.
+- **Tailwind CSS v4**: Framework de utilidades para el estilado, integrado mediante el plugin `@tailwindcss/vite`.
+- **Astro Content Collections**: Sistema de gestión de contenido basado en archivos Markdown, con validación de esquemas mediante Zod.
+- **`astro:assets`**: Pipeline de optimización de imágenes nativo de Astro para procesamiento automático en build.
 - **Diseño Responsive**: Mobile-first y escalable a pantallas Ultra-Wide.
 
-### Estructura de Directorios (Astro Standard)
-- `/src/pages`: Contiene las rutas de la aplicación (`index.astro`, `about.astro`, `contact.astro`, etc.). Los archivos aquí con corchetes (ej. `/services/[id].astro`) generan rutas dinámicas en tiempo de compilación.
-- `/src/components`: Componentes de UI reutilizables (Botones, Tarjetas, Secciones, Preloader).
-- `/src/layouts`: Componentes envolventes (wrappers) que definen la estructura global del HTML (como `Layout.astro`).
-- `/src/styles`: Archivos CSS globales (`globals.css`).
-- `/src/data`: Información estática de la web. Aquí vive `services.js`, que funciona como la base de datos de los servicios.
-- `/public`: Archivos estáticos accesibles directamente desde la raíz (imágenes, logos, iconos).
+### Estructura de Directorios
+
+```
+src/
+├── assets/              # Imágenes optimizadas por astro:assets (WebP, PNG, SVG)
+├── components/          # Componentes de UI reutilizables
+│   ├── ui/              # Componentes atómicos (Button, ButtonLink, SocialMediaLink)
+│   ├── Header.astro     # Navbar con iconos, detección de ruta activa y menú móvil
+│   ├── Hero.astro       # Sección principal con animaciones de tipeo
+│   ├── SEO.astro        # Componente de metadatos OpenGraph/Twitter
+│   ├── ThemeToggle.astro # Selector de tema claro/oscuro
+│   ├── ServicesCard.astro
+│   ├── ServicesSection.astro
+│   ├── AboutSection.astro
+│   ├── Footer.astro
+│   └── Preloader.astro
+├── content/             # Astro Content Collections
+│   ├── config.ts        # Esquema Zod de validación
+│   └── services/        # Archivos Markdown por servicio
+│       ├── desarrollo-fullstack.md
+│       ├── inteligencia-artificial.md
+│       ├── aplicaciones-mobile.md
+│       ├── transformacion-digital.md
+│       ├── consultoria-tecnica.md
+│       └── hosting-web.md
+├── layouts/             # Layout principal (Layout.astro)
+├── pages/               # Rutas de la aplicación
+│   ├── index.astro
+│   ├── about.astro
+│   ├── contact.astro
+│   ├── services.astro
+│   └── services/[id].astro  # Rutas dinámicas generadas desde Content Collections
+├── styles/              # Archivos CSS globales (globals.css)
+└── types/               # Tipos TypeScript
+```
+
+- `/public`: Archivos estáticos accesibles directamente desde la raíz (favicon, imagen OG). **Nota**: Las imágenes de contenido ya NO viven aquí; fueron migradas a `src/assets/`.
 
 ---
 
-## 2. Sistema de Diseño: "Dark Glassmorphism"
+## 2. Sistema de Diseño: "Dark Glassmorphism" con Modo Claro
 
-El sitio fue refactorizado para adoptar una estética **"Dark Glassmorphism"** (Minimalista, oscura, corporativa y elegante).
+El sitio adopta una estética **"Dark Glassmorphism"** (minimalista, oscura, corporativa y elegante) como tema por defecto, con soporte completo para un **modo claro**.
+
+### Sistema de Temas (`src/styles/globals.css`)
+
+El theming está implementado mediante **variables CSS** en `:root` (oscuro) y `[data-theme="light"]` (claro), permitiendo que todos los componentes respondan automáticamente al cambio de tema.
+
+#### Variables principales:
+| Variable | Dark | Light |
+|---|---|---|
+| `--bg-primary` | `#09090b` (zinc-950) | `#fafafa` (zinc-50) |
+| `--bg-secondary` | `#18181b` (zinc-900) | `#f4f4f5` (zinc-100) |
+| `--text-primary` | `#f4f4f5` (zinc-100) | `#09090b` (zinc-950) |
+| `--text-secondary` | `#a1a1aa` (zinc-400) | `#52525b` (zinc-600) |
+| `--accent-red` | `#dc2626` (red-600) | `#e11d48` (rose-600) |
+| `--glass-bg` | `rgba(0,0,0,0.4)` | `rgba(255,255,255,0.7)` |
+| `--overlay-color` | `rgba(9,9,11,0.7)` | `rgba(250,250,250,0.8)` |
+
+#### ThemeToggle (`ThemeToggle.astro`)
+- Iconos de sol/luna con transiciones suaves.
+- Persiste la preferencia en `localStorage`.
+- Funciona con múltiples instancias (desktop y móvil) gracias a `querySelectorAll`.
+- La preferencia se restaura instantáneamente en el `<head>` del Layout (script `is:inline`) para evitar flashes de tema incorrecto.
+- Se sincroniza automáticamente entre navegaciones vía `astro:after-swap`.
 
 ### Principios de Diseño
-1. **Glassmorphism (Paneles de Cristal Oscuro)**: En lugar de fondos sólidos, los componentes flotan sobre fondos fotográficos mediante paneles translúcidos. 
-   - Utilidad en CSS: `.glass-panel` (Aplica `backdrop-filter: blur`, borde semitransparente, sombra sutil y un fondo con muy baja opacidad).
-2. **Tipografía Premium**:
-   - **Display/Headings**: `Syne` (Brinda un toque moderno, arquitectónico y único a los títulos grandes).
-   - **Cuerpo/UI**: `Plus Jakarta Sans` (Extremadamente legible en pantallas pequeñas, geométrico y profesional).
-   - **Acentos**: `Space Mono` (Utilizado para listas de tecnologías o etiquetas, aportando un toque "tech").
-3. **Esquema de Color**:
-   - **Fondo General**: `zinc-950` (Casi negro).
-   - **Texto Principal**: Blanco (`text-white`) y `zinc-300` a `zinc-400` para descripciones, creando jerarquía.
-   - **Acento**: Rojo exFutura (`red-600` / `red-400` / `red-500/10` para fondos sutiles).
 
-### Utilidades Globales (`src/styles/globals.css`)
-- `@layer components`: Definición de `.glass-panel` y `.glass-panel-light`.
-- Variables CSS para colores consistentes si se requiere expansión en el futuro.
+1. **Glassmorphism (Paneles de Cristal)**:
+   - `.glass-panel`: `backdrop-filter: blur(16px)`, borde semitransparente, sombra profunda y fondo con baja opacidad.
+   - `.glass-panel-light`: Versión más sutil para el navbar y elementos secundarios.
+
+2. **Tipografía Premium**:
+   - **Display/Headings**: `Syne` (toque moderno y arquitectónico).
+   - **Cuerpo/UI**: `Plus Jakarta Sans` (legible, geométrico, profesional).
+   - **Acentos**: `Space Mono` (etiquetas de tecnología, pronunciación fonética).
+
+3. **Esquema de Color**: Adaptable entre oscuro y claro mediante las variables CSS. El acento rojo se ajusta ligeramente en modo claro para mantener contraste adecuado.
 
 ### Navegación Inteligente (`Header.astro`)
-El componente de cabecera detecta automáticamente la ruta activa:
-- **Estado Activo**: Resalta el enlace actual con color blanco y una línea de acento roja fija.
-- **Prevención de Redundancia**: Si el usuario intenta navegar a la página en la que ya se encuentra, el enlace bloquea la acción para evitar recargas innecesarias y asegurar la fluidez de la interfaz.
+
+- **Iconos Lucide**: Cada enlace del navbar incluye un ícono SVG inline (Layers, Users, Mail).
+- **Estado Activo**: Detección automática de la ruta actual. Resalta el enlace con color primario y una línea de acento roja fija.
+- **Prevención de Redundancia**: Si el usuario intenta navegar a la página actual, se bloquea la acción (`event.preventDefault()`).
+- **Menú Móvil**: Overlay con animaciones de entrada, gestión completa de foco (`aria-expanded`, `aria-controls`, `role="dialog"`), cierre con tecla Escape, y bloqueo de scroll del body.
 
 ---
 
-## 3. Optimización de Carga e Imágenes
+## 3. SEO y OpenGraph (`SEO.astro`)
 
-Debido al uso de fondos fotográficos pesados (`mac.webp`, `puzzle.webp`, `email.webp`), la carga inicial es vital para la percepción de calidad del usuario.
+El componente `SEO.astro` se inyecta en el `<head>` de cada página a través del Layout y gestiona automáticamente:
 
-### El Preloader (`Preloader.astro`)
+- **Meta tags primarios**: `title`, `description`, `canonical URL`.
+- **OpenGraph** (Facebook, WhatsApp, LinkedIn): `og:title`, `og:description`, `og:image`, `og:site_name`, `og:type`.
+- **Twitter Cards**: `twitter:card` (summary_large_image), `twitter:image`.
+- **Favicon**: Logo de exFutura (`/xF-logo.png`).
+- **Theme Color**: `#09090b`.
+
+### Imagen OG
+El archivo `public/og-image.png` es un banner de alta calidad con la estética de exFutura (fondo oscuro, acentos de neón rojo, logo). Al compartir cualquier link del sitio en redes sociales o mensajería, se muestra automáticamente esta tarjeta visual.
+
+### Configuración del sitio
+El campo `site` en `astro.config.mjs` está configurado como `https://exfutura.dev`. Esto permite que las URLs canónicas y de imágenes OG sean absolutas.
+
+---
+
+## 4. Optimización de Imágenes (`astro:assets`)
+
+Todas las imágenes del sitio han sido migradas de `/public` a `src/assets/` y se sirven mediante el componente `<Image />` de Astro.
+
+### Beneficios
+- **Optimización automática**: Astro procesa las imágenes en build, generando versiones optimizadas en WebP con dimensiones adecuadas.
+- **Prevención de CLS**: Las dimensiones se conocen en tiempo de compilación, evitando saltos de layout.
+- **Type-safety**: Las imágenes importadas como módulos JS son verificadas por TypeScript.
+
+### Componentes que usan `<Image />`
+| Componente | Imagen | Uso |
+|---|---|---|
+| `Header.astro` | `xF-logo.png` | Logo del navbar |
+| `Hero.astro` | `puzzle.webp` | Fondo del hero |
+| `ServicesCard.astro` | Dinámico (desde Content Collections) | Portada de cada servicio |
+| `services.astro` | `mac.webp` | Fondo de la sección servicios |
+| `services/[id].astro` | `mac.webp` + servicio | Fondo + imagen del servicio |
+| `about.astro` | `bulb.webp` | Fondo de sobre nosotros |
+| `contact.astro` | `email.webp` | Fondo de contacto |
+| `SocialMediaLink.astro` | `instagram-icon.png`, `whatsapp-icon.png` | Íconos de redes sociales |
+
+### Configuración de carga
+- **`loading="eager"`**: Elementos LCP (fondos principales).
+- **`decoding="async"`**: No bloquea el renderizado.
+- **`fetchpriority="high"`**: Prioridad máxima para fondos visibles de inmediato.
+
+---
+
+## 5. El Preloader (`Preloader.astro`)
+
 Para garantizar una experiencia premium, el sitio implementa un **Preloader Global**.
-- **Comportamiento**: Un `div` fijo oscuro (`bg-black`) que cubre toda la pantalla con el logo de exFutura pulsando. 
-- **Lógica de Persistencia**: Utiliza la directiva `transition:persist` de Astro. Esto permite que el loader se cargue una sola vez. Una vez oculto, permanece en estado `display: none` durante el resto de la navegación por el sitio, evitando parpadeos negros al cambiar de página.
-- **Lógica de Ejecución**: Escucha el evento `astro:page-load`. Se oculta rápidamente tras la carga inicial (o tras un fallback de seguridad de 1000ms) para no entorpecer la navegación.
-- **ViewTransitions**: El preloader está optimizado para funcionar con el ruteo suave de Astro, asegurando que la primera impresión sea perfecta pero que el resto de la navegación sea instantánea.
 
-### Atributos y Fluidos en Imágenes
-Las imágenes del sitio están optimizadas para una transición suave:
-- **`transition:name`**: Aplicado a los contenedores de las imágenes en los servicios para que los bordes redondeados y los overlays oscuros viajen de forma fluida entre la lista y el detalle.
-- **`transition:persist`**: Los fondos críticos (como `mac.webp`) están persistidos entre las páginas de servicios para evitar que la imagen "parpadee" o se recargue al navegar entre servicios.
-- **Placeholder**: Se utiliza un color de fondo `bg-zinc-800/50` como skeleton mientras las imágenes terminan de renderizarse, eliminando saltos visuales.
-- **Configuración**: `loading="eager"` para elementos visibles de inmediato y `decoding="async"` para no bloquear el renderizado.
+- **Comportamiento**: Un `div` fijo oscuro (`bg-black`) que cubre toda la pantalla con el logo de exFutura pulsando.
+- **Lógica de Persistencia**: Utiliza `transition:persist` de Astro. El loader se carga una sola vez; una vez oculto, permanece en `display: none` durante el resto de la navegación.
+- **Lógica de Ejecución**: Escucha `astro:page-load`. Se oculta rápidamente tras la carga inicial (o un fallback de 1000ms).
+- **ViewTransitions**: Optimizado para el ruteo suave de Astro.
 
 ---
 
-## 4. Guía de Desarrollo: Cómo agregar contenido
+## 6. Content Collections (Servicios)
 
-### Modificar Servicios
-La arquitectura de servicios es **completamente dinámica**. Si exFutura ofrece un nuevo servicio, **no necesitas crear una nueva página**.
+Los servicios se gestionan mediante **Astro Content Collections**, ofreciendo una arquitectura escalable y mantenible.
 
-1. Abre el archivo `src/data/services.js`.
-2. Agrega un nuevo objeto al array `services`.
-3. Asegúrate de incluir el campo `id` (slug de la URL, ej. `"nuevo-servicio"`).
-4. Abre `src/pages/services/[id].astro` y agrega el nuevo ID en la función `getStaticPaths`:
-   ```javascript
-   export async function getStaticPaths() {
-     return [
-       // ...rutas anteriores
-       { params: { id: "nuevo-servicio" } },
-     ];
-   }
-   ```
-Al compilar, Astro automáticamente generará la tarjeta en `/services` y la página detallada en `/services/nuevo-servicio`.
+### Esquema (`src/content/config.ts`)
+
+```typescript
+const servicesCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    description: z.string(),
+    bgImage: image(),
+    technologies: z.array(z.object({ name: z.string(), link: z.string().optional() })),
+    longDescription: z.string(),
+    features: z.array(z.string()),
+    targetAudience: z.array(z.string()),
+    benefits: z.array(z.string()),
+    process: z.array(z.string()),
+    projects: z.array(z.object({ ... })).optional(),
+    faqs: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+    cta: z.string().optional(),
+  }),
+});
+```
+
+### Cómo agregar un nuevo servicio
+
+1. Crear un archivo `src/content/services/nombre-del-servicio.md`.
+2. Agregar el frontmatter YAML con todos los campos obligatorios del esquema.
+3. Incluir la imagen en `src/assets/` y referenciarla como ruta relativa en `bgImage`.
+4. **No se necesitan cambios en ningún otro archivo**. Astro generará automáticamente:
+   - La tarjeta en `/services`.
+   - La página de detalle en `/services/nombre-del-servicio`.
+
+### Ejemplo de frontmatter
+
+```yaml
+---
+title: "Nuevo Servicio"
+subtitle: "Descripción corta"
+description: "Descripción para la tarjeta de la lista."
+bgImage: "../../assets/nueva-imagen.webp"
+technologies:
+  - name: "Tecnología A"
+    link: "https://ejemplo.com"
+  - name: "Tecnología B"
+longDescription: "Descripción extendida para la página de detalle."
+features:
+  - "🚀 Característica 1"
+  - "🛠️ Característica 2"
+targetAudience:
+  - "🏢 Público objetivo 1"
+benefits:
+  - "💰 Beneficio 1"
+process:
+  - "📞 Paso 1"
+faqs:
+  - q: "¿Pregunta frecuente?"
+    a: "Respuesta."
+cta: "¿Querés saber más? <a href='/contact'>Contactanos</a>."
+---
+```
+
+### Cómo se consumen los datos
+
+- **Lista de servicios** (`services.astro`): Usa `getCollection("services")` para listar todos los servicios.
+- **Detalle de servicio** (`services/[id].astro`): Usa `getStaticPaths()` + `getEntry("services", id)` para generar las rutas dinámicas y obtener los datos de cada servicio.
 
 ---
 
-## 5. Posibles Mejoras Futuras (Roadmap)
+## 7. Animaciones del Hero (`Hero.astro`)
 
-Aunque la aplicación está altamente optimizada, aquí hay áreas donde el proyecto puede escalar en el futuro:
+El Hero implementa varias animaciones sutiles para dar vida a la landing page:
 
-### A. Migración a `astro:assets` (Imágenes)
-Actualmente, las imágenes residen en la carpeta `/public` y se usan en tags `<img>` normales. 
-- **Mejora**: Mover las imágenes a `src/assets` e importarlas directamente en los componentes (ej. `import heroImg from '../assets/mac.webp';`).
-- **Beneficio**: Esto permite usar el componente nativo `<Image />` de Astro, el cual procesa las imágenes durante el *build*, creando variaciones de resolución responsivas (srcset) automáticamente, optimizando aún más el ancho de banda para usuarios en móviles.
+### Efecto Typewriter
+- Un script JS alterna el sufijo del subtítulo entre frases como "a medida", "para empresas", "para vos", manteniendo fijo el prefijo "Soluciones digitales ".
+- El cursor parpadeante (pseudo-elemento `::after`) refuerza la estética de terminal/código.
+- Se inicia con un delay de 2 segundos para sincronizar con las animaciones de entrada.
 
-### B. Integración con un CMS (Content Management System)
-Actualmente los servicios viven en un archivo `.js`.
-- **Mejora**: Integrar **Astro Content Collections** (archivos Markdown/MDX) o un Headless CMS externo (como Sanity, Strapi o Decap CMS).
-- **Beneficio**: Permitirá que personas no técnicas (equipo de marketing o redactores) modifiquen los textos, agreguen proyectos o editen FAQs sin tocar el código fuente del repositorio.
+### Animaciones CSS
+| Clase | Efecto | Delay |
+|---|---|---|
+| `.animate-fade-in` | Fade-in desde opacidad 0 | 0.5s |
+| `.animate-slide-up` | Slide-up de 20px + fade-in | 0.8s |
+| `.h1-text` | Text-glow pulsante (rojo sutil) | Infinito, 4s ciclo |
 
-### C. Accesibilidad (a11y) y SEO Avanzado
-- **A11y**: Asegurar que todos los enlaces tengan etiquetas `aria-label` descriptivas y comprobar el enfoque interactivo mediante teclado en el menú móvil y los modales.
-- **SEO**: Agregar un componente dinámico de `<SEO />` en el `<head>` de `Layout.astro` que inyecte etiquetas `OpenGraph` (para que al compartir el link en WhatsApp o LinkedIn aparezca una tarjeta bonita con una imagen del sitio en lugar de solo texto).
+---
 
-### D. Formularios
-- El formulario en `/contact` funciona con *Formspree*. A futuro, se puede integrar una API *Serverless* nativa de Astro (Astro SSR) con Resend o Nodemailer para no depender de servicios externos gratuitos, teniendo control absoluto sobre el diseño del correo electrónico que recibe el cliente.
+## 8. Accesibilidad (a11y)
+
+### Etiquetas ARIA
+- Todos los enlaces del navbar tienen `aria-label` descriptivos (ej: `"Ver sección de Servicios"`).
+- Los botones del Hero incluyen `aria-label` contextual.
+- Las tarjetas de servicio tienen `aria-label` con el nombre del servicio.
+- Los enlaces de redes sociales incluyen `aria-label` y `rel="noopener noreferrer"`.
+- Los íconos decorativos están marcados con `aria-hidden="true"`.
+
+### Menú Móvil
+- `aria-expanded` se actualiza dinámicamente al abrir/cerrar.
+- `aria-controls` conecta el botón con el overlay del menú.
+- `role="dialog"` y `aria-modal="true"` en el overlay.
+- **Gestión de foco**: Al abrir, el foco se mueve al primer enlace. Al cerrar, vuelve al botón.
+- **Tecla Escape**: Cierra el menú.
+- **Scroll Lock**: Se bloquea el scroll del `body` cuando el menú está abierto.
+
+### Focus Visible
+- Las tarjetas de servicios y los enlaces de redes sociales tienen `focus:ring-2 focus:ring-accent-red` para indicar foco visual via teclado.
+
+---
+
+## 9. Posibles Mejoras Futuras (Roadmap)
+
+### A. Integración con un CMS Externo
+- **Mejora**: Integrar un Headless CMS (Sanity, Strapi o Decap CMS) que alimente las Content Collections.
+- **Beneficio**: Permitirá que personas no técnicas modifiquen textos sin tocar el repositorio.
+
+### B. Formularios Serverless
+- El formulario en `/contact` funciona con *Formspree*. A futuro, se puede integrar una API Serverless nativa de Astro (SSR) con Resend o Nodemailer para tener control absoluto sobre el correo.
+
+### C. Internacionalización (i18n)
+- Agregar soporte para inglés usando el sistema de i18n de Astro, duplicando las Content Collections por idioma.
+
+### D. Analytics
+- Integrar Google Analytics o Plausible para medir tráfico y conversiones del formulario de contacto.

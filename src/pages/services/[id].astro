@@ -1,22 +1,21 @@
 ---
+import { getCollection, getEntry } from "astro:content";
+import { Image } from "astro:assets";
+import macImg from "../../assets/mac.webp";
 import SectionTitle from "../../components/SectionTitle.astro";
 import ServicesSection from "../../components/ServicesSection.astro";
 import Layout from "../../layouts/Layout.astro";
-import { services } from "../../data/services.js";
-
-const { id } = Astro.params;
-const foundService = services.find((service) => service.id === id);
 
 export async function getStaticPaths() {
-  return [
-    { params: { id: "desarrollo-fullstack" } },
-    { params: { id: "aplicaciones-mobile" } },
-    { params: { id: "inteligencia-artificial" } },
-    { params: { id: "consultoria-tecnica" } },
-    { params: { id: "transformacion-digital" } },
-    { params: { id: "hosting-web" } },
-  ];
+  const services = await getCollection("services");
+  return services.map(entry => ({
+    params: { id: entry.slug },
+  }));
 }
+
+const { id } = Astro.params;
+const entry = await getEntry("services", id);
+const foundService = entry?.data;
 ---
 
 <Layout title="Servicio">
@@ -31,8 +30,8 @@ export async function getStaticPaths() {
         class="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50 z-10"
       >
       </div>
-      <img
-        src="/mac.webp"
+      <Image
+        src={macImg}
         loading="eager"
         decoding="async"
         fetchpriority="high"
@@ -55,7 +54,7 @@ export async function getStaticPaths() {
             class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none"
           >
           </div>
-          <img
+          <Image
             src={foundService?.bgImage}
             alt={foundService?.title}
             loading="eager"

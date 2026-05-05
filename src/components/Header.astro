@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logoImg from '../assets/xF-logo.png';
 import ThemeToggle from "./ThemeToggle.astro";
 
 const links = [
@@ -24,20 +26,21 @@ const currentPath = Astro.url.pathname;
 
 <header class="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-6 pointer-events-none flex justify-center w-full">
   <div class="pointer-events-auto w-full max-w-4xl glass-panel-light rounded-full px-6 py-3 flex justify-between items-center transition-all duration-300 border border-glass-border">
-    <a href="/" class="flex items-center gap-3 group relative overflow-hidden" onclick={currentPath === '/' ? "event.preventDefault();" : ""}>
-      <img src="/xF-logo.png" alt="exFutura" class="w-10 h-auto transition-transform duration-500 group-hover:scale-110 invert theme-icon" >
+    <a href="/" class="flex items-center gap-3 group relative overflow-hidden" onclick={currentPath === '/' ? "event.preventDefault();" : ""} aria-label="Ir al inicio de exFutura">
+      <Image src={logoImg} alt="exFutura logo" class="w-10 h-auto transition-transform duration-500 group-hover:scale-110 invert theme-icon" >
       <span class="font-display font-bold text-lg tracking-wide hidden sm:block opacity-0 transform -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-text-primary">exFutura</span>
     </a>
 
     <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-8">
-      <nav class="flex items-center gap-8">
+      <nav class="flex items-center gap-8" aria-label="Navegación principal">
         {links.map(link => {
           const isActive = currentPath.startsWith(link.href);
           return (
             <a 
               href={link.href} 
               onclick={isActive ? "event.preventDefault();" : ""}
+              aria-label={`Ver sección de ${link.label}`}
               class={`relative text-sm font-medium transition-colors duration-300 group flex items-center gap-2 ${isActive ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}
             >
               <Fragment set:html={link.icon} />
@@ -47,34 +50,47 @@ const currentPath = Astro.url.pathname;
           );
         })}
       </nav>
-      <div class="w-[1px] h-4 bg-glass-border"></div>
+      <div class="w-[1px] h-4 bg-glass-border" aria-hidden="true"></div>
       <ThemeToggle />
     </div>
 
     <!-- Mobile Menu Button -->
     <div class="flex items-center gap-4 md:hidden">
       <ThemeToggle />
-      <button id="mobile-menu-btn" class="flex flex-col justify-center items-center w-8 h-8 gap-[5px] focus:outline-none">
-        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left"></span>
-        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300"></span>
-        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left"></span>
+      <button 
+        id="mobile-menu-btn" 
+        class="flex flex-col justify-center items-center w-8 h-8 gap-[5px] focus:outline-none"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="mobile-menu-overlay"
+      >
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left" aria-hidden="true"></span>
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300" aria-hidden="true"></span>
+        <span class="w-6 h-[2px] bg-text-secondary transition-all duration-300 origin-left" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 
   <!-- Mobile Nav Overlay -->
-  <div id="mobile-menu-overlay" class="fixed inset-0 bg-bg-primary/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center">
-    <nav class="flex flex-col items-center gap-10 text-2xl font-display">
+  <div 
+    id="mobile-menu-overlay" 
+    class="fixed inset-0 bg-bg-primary/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú móvil"
+  >
+    <nav class="flex flex-col items-center gap-10 text-2xl font-display" aria-label="Navegación móvil">
       {links.map((link, i) => {
         const isActive = currentPath.startsWith(link.href);
         return (
           <a 
             href={link.href} 
             onclick={isActive ? "event.preventDefault();" : ""}
+            aria-label={`Ver sección de ${link.label}`}
             class={`mobile-link transition-all duration-300 translate-y-8 opacity-0 relative group flex items-center gap-4 ${isActive ? 'text-text-primary scale-110' : 'text-text-secondary hover:text-text-primary hover:scale-110'}`} 
             style={`transition-delay: ${i * 100}ms`}
           >
-            <div class="opacity-50 group-hover:opacity-100 transition-opacity">
+            <div class="opacity-50 group-hover:opacity-100 transition-opacity" aria-hidden="true">
               <Fragment set:html={link.icon.replace('width="18"', 'width="28"').replace('height="18"', 'height="28"')} />
             </div>
             {link.label}
@@ -104,11 +120,14 @@ const currentPath = Astro.url.pathname;
 
     btn.addEventListener('click', () => {
       isOpen = !isOpen;
+      btn.setAttribute('aria-expanded', isOpen.toString());
+      btn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
       
       if (isOpen) {
         // Open
         overlay.classList.remove('opacity-0', 'pointer-events-none');
         overlay.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden'; // Prevent scroll
         
         // Animate hamburger to X
         if(spans) {
@@ -122,10 +141,16 @@ const currentPath = Astro.url.pathname;
           link.classList.remove('translate-y-8', 'opacity-0');
           link.classList.add('translate-y-0', 'opacity-100');
         });
+
+        // Set focus to the first link after a short delay
+        setTimeout(() => {
+          links[0]?.focus();
+        }, 300);
       } else {
         // Close
         overlay.classList.remove('opacity-100', 'pointer-events-auto');
         overlay.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = ''; // Restore scroll
         
         // Revert X to hamburger
         if(spans) {
@@ -139,14 +164,24 @@ const currentPath = Astro.url.pathname;
           link.classList.remove('translate-y-0', 'opacity-100');
           link.classList.add('translate-y-8', 'opacity-0');
         });
+
+        // Return focus to the button
+        btn.focus();
       }
     });
 
     // Close menu when clicking a link
     links.forEach(link => {
       link.addEventListener('click', () => {
-        btn.click();
+        if (isOpen) btn.click();
       });
+    });
+
+    // Handle Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        btn.click();
+      }
     });
   });
 </script>
