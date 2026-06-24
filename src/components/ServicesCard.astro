@@ -12,9 +12,10 @@ interface Props {
 
 const { image, title, description, technologies, slug, id} = Astro.props;
 const base = import.meta.env.BASE_URL;
+const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
 ---
 
-<a href={`${base}/services/${slug}`} aria-label={`Saber más sobre el servicio de ${title}`} class="group flex flex-col gap-4 glass-panel p-5 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:-translate-y-2 relative overflow-hidden">
+<a href={`${cleanBase}/services/${slug}`} aria-label={`Saber más sobre el servicio de ${title}`} class="group flex flex-col gap-4 glass-panel p-5 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:-translate-y-2 relative overflow-hidden">
     <div transition:name={`image-container-${slug}`} class="overflow-hidden rounded-xl h-48 w-full relative bg-bg-secondary/50">
         <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none"></div>
         <Image loading="eager" decoding="async" fetchpriority="high" src={image} alt={title} id={id} class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
