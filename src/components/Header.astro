@@ -83,6 +83,18 @@ const homePath = base.endsWith('/') ? base : `${base}/`;
     aria-modal="true"
     aria-label="Menú móvil"
   >
+    <!-- Botón de Cerrar (X) -->
+    <button 
+      id="mobile-menu-close-btn" 
+      class="absolute top-6 right-6 p-3 text-text-secondary hover:text-text-primary bg-bg-primary/20 backdrop-blur-md rounded-full border border-glass-border transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-red/50"
+      aria-label="Cerrar menú de navegación"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x transition-transform duration-300 hover:rotate-90">
+        <line x1="18" x2="6" y1="6" y2="18"></line>
+        <line x1="6" x2="18" y1="6" y2="18"></line>
+      </svg>
+    </button>
+
     <nav class="flex flex-col items-center gap-10 text-2xl font-display" aria-label="Navegación móvil">
       {links.map((link, i) => {
         const isActive = currentPath.startsWith(link.href);
@@ -116,6 +128,7 @@ const homePath = base.endsWith('/') ? base : `${base}/`;
   document.addEventListener('astro:page-load', () => {
     const btn = document.getElementById('mobile-menu-btn');
     const overlay = document.getElementById('mobile-menu-overlay');
+    const closeBtn = document.getElementById('mobile-menu-close-btn');
     const links = document.querySelectorAll('.mobile-link');
     const spans = btn?.querySelectorAll('span');
     let isOpen = false;
@@ -171,6 +184,20 @@ const homePath = base.endsWith('/') ? base : `${base}/`;
 
         // Return focus to the button
         btn.focus();
+      }
+    });
+
+    // Close menu when clicking the dedicated close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        if (isOpen) btn.click();
+      });
+    }
+
+    // Close menu when clicking outside the menu (on the overlay backdrop)
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay && isOpen) {
+        btn.click();
       }
     });
 
